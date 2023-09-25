@@ -1,0 +1,10 @@
+{
+  "users": [
+    {
+      "name": "aaa",
+      "quota": 1,
+      "date": "10/20/2020",
+      "dept": "xxx"
+    }
+  ]
+}
