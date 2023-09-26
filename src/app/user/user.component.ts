@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import {ChangeDetectorRef, Component, ViewChild} from '@angular/core';
 import { UserService } from './user.service';
 import {LiveAnnouncer} from '@angular/cdk/a11y';
 import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
@@ -12,6 +12,8 @@ import {
 } from "@angular/material/datepicker";
 import {FormGroup, FormControl, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {range} from "rxjs";
+import {MatDialog} from "@angular/material/dialog";
+import {DialogComponent} from "./dialog/dialog.component"
 
 
 @Component({
@@ -21,7 +23,7 @@ import {range} from "rxjs";
 })
 export class UserComponent {
   displayedColumns: string[] = ['login', 'dept', 'onboard', 'fullname'];
-  dataSource = new MatTableDataSource<UserInfo>(ELEMENT_DATA);
+  dataSource: MatTableDataSource<UserInfo>;
   selectedDepartment: any;
   departments = [
     {
@@ -39,11 +41,31 @@ export class UserComponent {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor(private _liveAnnouncer: LiveAnnouncer) {}
+  constructor(private _liveAnnouncer: LiveAnnouncer,
+              private dialog: MatDialog,
+              private service: UserService,
+              private cd:ChangeDetectorRef) {
+  }
 
   ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
+    this.service.getUsers().subscribe(data => {
+      console.log(data);
+      let employee_data: UserInfo[] = []
+      for (let i=0;i<data.results.length;i++) {
+        employee_data.push({
+          login: data.results[i]["login"],
+          dept: data.results[i]["department"],
+          onboard: new Date(data.results[i]["onboard_date"]),
+          fullname: data.results[i]["name"]
+        });
+      }
+      console.log(employee_data);
+      this.dataSource = new MatTableDataSource<UserInfo>(employee_data);
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+
+      console.log(this.dataSource);
+    })
   }
 
   announceSortChange(sortState: Sort) {
@@ -58,11 +80,6 @@ export class UserComponent {
       this._liveAnnouncer.announce('Sorting cleared');
     }
   }
-  // constructor(private service: UserService) {
-  //   this.service.getUsers().subscribe(data => {
-  //     this.user_data = data;
-  //   })
-  // }
 
   update_data_source() {
     console.log(this.selectedDepartment);
@@ -80,26 +97,17 @@ export class UserComponent {
     }
   }
 
-
+  open_add_user_dialog() {
+    const dialogRef = this.dialog.open(DialogComponent,{
+      minWidth:"18rem",
+      height:"auto",
+    });
+  }
 }
 
 export interface UserInfo {
-  login: string;
-  dept: string;
-  onboard: string;
-  fullname: string;
+  login?: string;
+  dept?: string;
+  onboard?: Date;
+  fullname?: string;
 }
-
-const ELEMENT_DATA: UserInfo[] = [
-  {login: "qinwil", dept: "FRPPE", onboard: "1/8/2023", fullname: "Will Qin"},
-  {login: "qinwil", dept: "FRPPE", onboard: "2/8/2023", fullname: "Will Qin"},
-  {login: "qinwil", dept: "FRPPE", onboard: "8/8/2023", fullname: "Will Qin"},
-  {login: "qinwil", dept: "FRPPE", onboard: "9/8/2023", fullname: "Will Qin"},
-  {login: "qinwil", dept: "FRPPE", onboard: "10/8/2023", fullname: "Will Qin"},
-  {login: "qinwil", dept: "FRPPE", onboard: "11/8/2023", fullname: "Will Qin"},
-  {login: "qinwil", dept: "FRPPE", onboard: "3/8/2023", fullname: "Will Qin"},
-  {login: "qinwil", dept: "FRPPE", onboard: "4/8/2023", fullname: "Will Qin"},
-  {login: "qinwil", dept: "FRPPE", onboard: "5/8/2023", fullname: "Will Qin"},
-  {login: "qinwil", dept: "FRPPE", onboard: "6/8/2023", fullname: "Will Qin"},
-  {login: "qinwil", dept: "FRPPE", onboard: "7/8/2023", fullname: "Will Qin"},
-];

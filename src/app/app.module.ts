@@ -3,7 +3,6 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HttpClientModule } from "@angular/common/http";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatToolbarModule } from "@angular/material/toolbar";
 import { MatGridListModule } from "@angular/material/grid-list"
@@ -24,6 +23,12 @@ import {Component} from '@angular/core';
 import {FormGroup, FormControl, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {NgIf, JsonPipe} from '@angular/common';
 import {MatSelectModule} from "@angular/material/select";
+import {MatDialogModule} from "@angular/material/dialog"
+import { DialogComponent } from './user/dialog/dialog.component';
+import {MatCardModule} from "@angular/material/card";
+import { LoginComponent } from './user/login/login.component';
+import { HTTP_INTERCEPTORS, HttpClientModule } from "@angular/common/http";
+import { TokenInterceptor } from "./token.interceptor";
 
 @NgModule({
   declarations: [
@@ -31,7 +36,9 @@ import {MatSelectModule} from "@angular/material/select";
     NavbarComponent,
     UserComponent,
     ReportComponent,
-    HomeComponent
+    HomeComponent,
+    DialogComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -55,8 +62,12 @@ import {MatSelectModule} from "@angular/material/select";
     ReactiveFormsModule,
     MatNativeDateModule,
     MatSelectModule,
+    MatDialogModule,
+    MatCardModule
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,4 +1,7 @@
 import { Component } from '@angular/core';
+import {FormBuilder, Validators} from "@angular/forms";
+import {AuthService} from "../auth.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-navbar',
@@ -7,4 +10,9 @@ import { Component } from '@angular/core';
 })
 export class NavbarComponent {
 
+  constructor(private router: Router) {}
+  logout() {
+    localStorage.removeItem('userData');
+    this.router.navigateByUrl("login");
+  }
 }

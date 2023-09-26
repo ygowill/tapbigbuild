@@ -1,7 +1,8 @@
 <mat-toolbar color="primary">
   <span>Nebula</span>
   <span class="spacer"></span>
-  <a mat-button routerLink="/home">Home</a>
+<!--  <a mat-button routerLink="/home">Home</a>-->
   <a mat-button routerLink="/user">User</a>
   <a mat-button routerLink="/report">Report</a>
+  <a mat-button (click)="logout()">Logout</a>
 </mat-toolbar>
