@@ -9,7 +9,12 @@
           <input (dateChange)="date_change('end_date', $event)" formControlName="end" matEndDate placeholder="End date">
         </mat-date-range-input>
         <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+
         <mat-datepicker-toggle [for]="picker" matIconSuffix></mat-datepicker-toggle>
+
+        <mat-datepicker-toggle matSuffix (click)="clear_date_range()">
+          <mat-icon matDatepickerToggleIcon>clear</mat-icon>
+        </mat-datepicker-toggle>
         <mat-date-range-picker #picker></mat-date-range-picker>
 
         <mat-error *ngIf="range.controls.start.hasError('matStartDateInvalid')">Invalid start date</mat-error>
@@ -19,11 +24,14 @@
     <mat-grid-tile>
       <mat-form-field>
         <mat-label>Department</mat-label>
-        <mat-select (ngModelChange)="update_data_source()" [(ngModel)]="selectedDepartment" name="dept">
-          <mat-option *ngFor="let dept of departments" [value]="dept.value">
-            {{dept.value}}
+        <mat-select (selectionChange)="update_data_source()" [(ngModel)]="selectedDepartment" name="dept">
+          <mat-option *ngFor="let dept of departments_list" [value]="dept">
+            {{dept}}
           </mat-option>
         </mat-select>
+        <button mat-button matSuffix (click)="clear_department()" *ngIf="selectedDepartment">
+          <mat-icon>close</mat-icon>
+        </button>
       </mat-form-field>
     </mat-grid-tile>
     <mat-grid-tile></mat-grid-tile>

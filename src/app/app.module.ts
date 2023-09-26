@@ -24,7 +24,7 @@ import {FormGroup, FormControl, FormsModule, ReactiveFormsModule} from '@angular
 import {NgIf, JsonPipe} from '@angular/common';
 import {MatSelectModule} from "@angular/material/select";
 import {MatDialogModule} from "@angular/material/dialog"
-import { DialogComponent } from './user/dialog/dialog.component';
+import { DialogComponent } from './user/add_user_dialog/dialog.component';
 import {MatCardModule} from "@angular/material/card";
 import { LoginComponent } from './user/login/login.component';
 import { HTTP_INTERCEPTORS, HttpClientModule } from "@angular/common/http";
