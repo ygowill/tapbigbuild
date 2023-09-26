@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
 import {LoggedInUser, UserCredentials} from "./auth";
+import { server_address } from "../const/config"
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +19,7 @@ export class AuthService {
 
   logIn(username: string, password: string): Observable<LoggedInUser> {
     return this.http.post(
-      'http://127.0.0.1:8000/api-user-login/', { username, password }
+      `http://${server_address}/api-user-login/`, { username, password }
     ) as Observable<LoggedInUser>;
   }
 }
