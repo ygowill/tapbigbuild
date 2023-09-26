@@ -6,34 +6,34 @@
     </mat-grid-tile>
     <mat-grid-tile>
       <mat-form-field>
-        <input matInput placeholder="First Name" [ngModel]="first_name">
+        <input matInput placeholder="First Name" [(ngModel)]="first_name">
       </mat-form-field>
     </mat-grid-tile>
     <mat-grid-tile>
       <mat-form-field>
-        <input matInput placeholder="Last Name" [ngModel]="last_name">
+        <input matInput placeholder="Last Name" [(ngModel)]="last_name">
       </mat-form-field>
     </mat-grid-tile>
     <mat-grid-tile>
       <mat-form-field>
-        <input matInput placeholder="User Name" [ngModel]="username">
+        <input matInput placeholder="User Name" [(ngModel)]="username">
       </mat-form-field>
     </mat-grid-tile>
     <mat-grid-tile>
       <mat-form-field>
-        <input matInput placeholder="Password" [ngModel]="password">
+        <input matInput placeholder="Password" [(ngModel)]="password">
       </mat-form-field>
     </mat-grid-tile>
     <mat-grid-tile>
       <mat-form-field>
-        <input matInput placeholder="Quota" [ngModel]="quota">
+        <input matInput placeholder="Quota" [(ngModel)]="quota">
       </mat-form-field>
     </mat-grid-tile>
     <mat-grid-tile>
       <mat-form-field>
         <mat-label>Department</mat-label>
-        <mat-select [(ngModel)]="selectedDepartment" name="dept">
-          <mat-option *ngFor="let dept of departments" [value]="departments">
+        <mat-select [(ngModel)]="selectedDepartment" (ngModelChange)="console.log(selectedDepartment)" name="dept">
+          <mat-option *ngFor="let dept of departments" [value]="dept">
             {{dept}}
           </mat-option>
         </mat-select>
@@ -41,7 +41,7 @@
     </mat-grid-tile>
     <mat-grid-tile>
       <button mat-button (click)="closeDialog()">Cancel</button>
-      <button mat-stroked-button color="accent" (click)="onSubmit()">Add Child</button>
+      <button mat-stroked-button color="accent" (click)="onSubmit()">Add User</button>
     </mat-grid-tile>
   </mat-grid-list>
 </div>

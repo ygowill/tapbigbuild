@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, ErrorHandler } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -19,16 +19,18 @@ import { MatDatepickerModule } from "@angular/material/datepicker";
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import {Component} from '@angular/core';
-import {FormGroup, FormControl, FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {NgIf, JsonPipe} from '@angular/common';
-import {MatSelectModule} from "@angular/material/select";
-import {MatDialogModule} from "@angular/material/dialog"
+import { Component } from '@angular/core';
+import { FormGroup, FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NgIf, JsonPipe } from '@angular/common';
+import { MatSelectModule } from "@angular/material/select";
+import { MatDialogModule,MAT_DIALOG_DEFAULT_OPTIONS } from "@angular/material/dialog"
 import { DialogComponent } from './user/add_user_dialog/dialog.component';
-import {MatCardModule} from "@angular/material/card";
+import { MatCardModule} from "@angular/material/card";
 import { LoginComponent } from './user/login/login.component';
 import { HTTP_INTERCEPTORS, HttpClientModule } from "@angular/common/http";
 import { TokenInterceptor } from "./token.interceptor";
+import { AlertComponent } from './alert/alert.component';
+import { AlertService } from './alert.service';
 
 @NgModule({
   declarations: [
@@ -38,7 +40,8 @@ import { TokenInterceptor } from "./token.interceptor";
     ReportComponent,
     HomeComponent,
     DialogComponent,
-    LoginComponent
+    LoginComponent,
+    AlertComponent
   ],
   imports: [
     BrowserModule,
@@ -67,6 +70,16 @@ import { TokenInterceptor } from "./token.interceptor";
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
+    {
+      provide: MAT_DIALOG_DEFAULT_OPTIONS,
+      useValue: {
+        disableClose: true,
+        hasBackdrop: true
+      }
+    },
+
+    // replace native, generic ErrorHandler with custom ErrorHandlerService
+    { provide: ErrorHandler, useClass: AlertService }
   ],
   bootstrap: [AppComponent]
 })

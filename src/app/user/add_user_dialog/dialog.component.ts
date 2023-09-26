@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import {MatDialogRef} from "@angular/material/dialog";
+import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 import { UserService } from '../user.service';
-import {HttpClient} from "@angular/common/http";
+import {AlertComponent} from "../../alert/alert.component";
 
 @Component({
   selector: 'app-add_user_dialog',
@@ -16,17 +16,20 @@ export class DialogComponent {
   first_name: string = "";
   username: string = "";
   password: string = "123QWEasd";
-  quota:number = 1010101;
+  quota:number = 	8388608;
+  departments_info: any;
   constructor(
     private dialogRef: MatDialogRef<DialogComponent>,
     private user_service: UserService,
-    private http: HttpClient
+    public dialog: MatDialog
   ){
     this.user_service.getDepartments().subscribe(data => {
+      this.departments_info = data.results;
       this.departments = data.results.map((item: { dept: any; }) => item.dept);
       if (this.departments.length > 0) {
         this.selectedDepartment = this.departments[0];
       }
+      console.log(this.departments_info);
     })
   }
 
@@ -34,20 +37,39 @@ export class DialogComponent {
     this.dialogRef.close();
   }
 
-  protected readonly onsubmit = onsubmit;
-
   onSubmit() {
-    this.http.post("http://localhost:8080/user/addUsers", {
-      users: [
+    // console.log("submit clicked")
+    // console.log(this.selectedDepartment)
+    console.log()
+    this.user_service.createUser(
         {
-          "firstname": this.first_name,
-          "lastname": this.last_name,
-          "username": this.username,
-          "pwd": this.password,
-          "dept": this.selectedDepartment,
-          "quota": this.quota
-        }
-      ]
-    })
+        "firstname": this.first_name,
+        "lastname": this.last_name,
+        "username": this.username,
+        "pwd": this.password,
+        "dept": this.departments_info.filter((item:any) => item.dept === this.selectedDepartment)[0].id,
+        "quota": this.quota
+      }
+    ).subscribe(
+      (data) => {
+        setTimeout(() => {
+          this.dialog.open(AlertComponent, {
+            data: {
+              icon: 'Check',
+              message: 'Create User Success!'
+            }
+          });
+        }, 200);
+      },
+      (error) => {
+        // console.log(error);
+        setTimeout(() => {
+          throw new Error(error.error);
+        }, 200);
+      }
+    );
+    this.dialogRef.close();
   }
+
+  protected readonly console = console;
 }

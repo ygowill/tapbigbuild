@@ -24,4 +24,12 @@ export class UserService {
   getDepartments(): Observable<any> {
     return this.http.get(`http://${server_address}/api/v1/organizations/`);
   }
+
+  createUser(user_info: { firstname: string; quota: number; dept: string; pwd: string; lastname: string; username: string }) {
+    return this.http.post(`http://${server_address}/api/v1/users/`, {
+      users: [
+        user_info
+      ]
+    });
+  }
 }
