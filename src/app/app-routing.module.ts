@@ -19,7 +19,7 @@ const routes: Routes = [
   {
     path: '',
     component: UserComponent,
-    // canActivate: [AuthGuard],
+    canActivate: [AuthGuard],
     children: ['', 'user'].map(path => ({
       path,
       component: UserComponent
@@ -28,7 +28,7 @@ const routes: Routes = [
   {
     path: 'report',
     component: ReportComponent,
-    // canActivate: [AuthGuard]
+    canActivate: [AuthGuard]
   }
 ];
 
