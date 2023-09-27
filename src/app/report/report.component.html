@@ -1,1 +1,51 @@
-<p>report works!</p>
+<!-- report.component.html -->
+<div class="container">
+    <h2>&nbsp;&nbsp;{{showcase}} {{ showCurrent }} Disk Usage Report</h2>
+    <mat-card>
+        <mat-card-content>
+            <button mat-raised-button (click)="changeShow()"> get {{ showcaseButton }} usage </button>&nbsp;&nbsp;
+            <button mat-raised-button (click)="getCurrentUsage()"> get {{ showCurrentButton }} usage </button>
+        </mat-card-content>
+    </mat-card>
+    <br>
+    <mat-card>
+        <mat-card-content>
+            <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+            <ng-container matColumnDef="user">
+                <mat-header-cell *matHeaderCellDef>User</mat-header-cell>
+                <mat-cell *matCellDef="let usage">{{ usage.user }}</mat-cell>
+            </ng-container>
+        
+            <ng-container matColumnDef="dept">
+                <mat-header-cell *matHeaderCellDef>Department</mat-header-cell>
+                <mat-cell *matCellDef="let usage">{{ usage.dept }}</mat-cell>
+            </ng-container>
+        
+            <ng-container matColumnDef="date">
+                <mat-header-cell *matHeaderCellDef>Date</mat-header-cell>
+                <mat-cell *matCellDef="let usage">{{ usage.date }}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="usage">
+                <mat-header-cell *matHeaderCellDef>Usage</mat-header-cell>
+                <mat-cell *matCellDef="let usage">{{ usage.usage }}</mat-cell>
+            </ng-container>
+        
+            <ng-container matColumnDef="limit">
+                <mat-header-cell *matHeaderCellDef>Limit</mat-header-cell>
+                <mat-cell *matCellDef="let usage">{{ usage.limit }}</mat-cell>
+            </ng-container>
+        
+            <ng-container matColumnDef="machine">
+                <mat-header-cell *matHeaderCellDef>Machine</mat-header-cell>
+                <mat-cell *matCellDef="let usage">{{ usage.machine }}</mat-cell>
+            </ng-container>
+        
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+            </mat-table>
+
+        </mat-card-content>
+    </mat-card>
+</div>
+  
