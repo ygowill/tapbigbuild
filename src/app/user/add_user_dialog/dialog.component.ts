@@ -16,7 +16,7 @@ export class DialogComponent {
   first_name: string = "";
   username: string = "";
   password: string = "123QWEasd";
-  quota:number = 	8388608;
+  quota:number = 	10240;
   departments_info: any;
   constructor(
     private dialogRef: MatDialogRef<DialogComponent>,
